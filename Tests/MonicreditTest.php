@@ -44,7 +44,7 @@ class MonicreditTest extends TestCase
         ];
 
         $payload = [
-            'order_id' => 'newtest001',
+            'order_id' => rand(1000, 9000),
             'customer' => $customer,
             'items' => [$itemDetails],
             'transaction_type' => 'POS',
@@ -52,11 +52,10 @@ class MonicreditTest extends TestCase
         ];
 
         $initiate = $monicredit->intiateTransaction($payload);
-
-        return $initiate;
-
-        // $this->assertIsArray($initiate, "data");
-        // $this->assertArrayHasKey("message", $sent);
-        // unset($initiate);
+        $this->assertIsArray($initiate);
+        $this->assertArrayHasKey("status", $initiate);
+        $this->assertArrayHasKey("authorization_url", $initiate);
+        $this->assertArrayHasKey("id", $initiate);
+        unset($initiate);
     }
 }

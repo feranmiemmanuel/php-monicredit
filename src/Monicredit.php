@@ -67,18 +67,14 @@ use GuzzleHttp\Client;
     public function intiateTransaction(array $payload)
     {
         $publicKey = '';
-        switch ($_ENV['MONICREDIT_ENVIRONMENT']){
-            case 'DEMO':
-                $publicKey = $_ENV['MONICREDIT_DEMO_PUBLIC_KEY'];
-            case 'LIVE':
-                $publicKey = $_ENV['MONICREDIT_LIVE_PUBLIC_KEY'];
-            default:
-                break;
+        if ($_ENV['MONICREDIT_ENVIRONMENT'] == 'DEMO') {
+            $publicKey = $_ENV['MONICREDIT_DEMO_PUBLIC_KEY'];
+            $payload['public_key'] = $publicKey;
+        } elseif ($_ENV['MONICREDIT_ENVIRONMENT'] == 'LIVE') {
+            $publicKey = $_ENV['MONICREDIT_LIVE_PUBLIC_KEY'];
+            $payload['public_key'] = $publicKey;
         }
-        $payload = array_merge($payload, [
-            'public_key' => $publicKey,
-            "paytype" => "standard"
-        ]);
+        $payload["paytype"] = "standard";
         return $this->post('payment/transactions/init-transaction', $payload);
     }
  }
