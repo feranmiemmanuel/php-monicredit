@@ -1,0 +1,18 @@
+{
+    "name": "jesuferanmi/php-monicredit",
+    "description": "Monicredit Rest API php library",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Jesuferanmi\\PhpMonicredit\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "feranmi",
+            "email": "feranmiolasunkanmi91@gmail.com"
+        }
+    ],
+    "require": {}
+}
