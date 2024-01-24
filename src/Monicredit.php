@@ -77,4 +77,17 @@ use GuzzleHttp\Client;
         $payload["paytype"] = "standard";
         return $this->post('payment/transactions/init-transaction', $payload);
     }
+
+    public function verifyTransaction(array $payload)
+    {
+        $privateKey = '';
+        if ($_ENV['MONICREDIT_ENVIRONMENT'] == 'DEMO') {
+            $privateKey = $_ENV['MONICREDIT_DEMO_PRIVATE_KEY'];
+            $payload['private_key'] = $privateKey;
+        } elseif ($_ENV['MONICREDIT_ENVIRONMENT'] == 'LIVE') {
+            $privateKey = $_ENV['MONICREDIT_LIVE_PRIVATE_KEY'];
+            $payload['private_key'] = $privateKey;
+        }
+        return $this->post('payment/transactions/verify-transaction', $payload);
+    }
  }

@@ -17,7 +17,7 @@ class MonicreditTest extends TestCase
         $dotenv->load();
     }
 
-    public function test_initiate_index()
+    public function test_initiate_transaction()
     {
         $monicredit = new Monicredit();
 
@@ -52,10 +52,27 @@ class MonicreditTest extends TestCase
         ];
 
         $initiate = $monicredit->intiateTransaction($payload);
+    
         $this->assertIsArray($initiate);
         $this->assertArrayHasKey("status", $initiate);
         $this->assertArrayHasKey("authorization_url", $initiate);
         $this->assertArrayHasKey("id", $initiate);
         unset($initiate);
+    }
+
+    public function test_verify_transaction()
+    {
+        // Disable Verify SSL in Guzzle
+        $monicredit = new Monicredit();
+        $monicredit->verifySSL = $this->verifySSL;
+        $payload = ["transaction_id" => "ACX65B195953530D"];
+        $verify = $monicredit->verifyTransaction($payload);
+
+        $this->assertIsArray($verify);
+        $this->assertArrayHasKey("status", $verify);
+        $this->assertArrayHasKey("orderid", $verify);
+        $this->assertArrayHasKey("data", $verify);
+        $this->assertIsArray($verify, "data");
+        unset($verify);
     }
 }
