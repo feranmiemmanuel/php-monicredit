@@ -10,9 +10,11 @@
     },
     "authors": [
         {
-            "name": "feranmi",
+            "name": "Olasunkanmi Jesuferanmi",
             "email": "feranmiolasunkanmi91@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "guzzlehttp/guzzle": "^7.8"
+    }
 }
