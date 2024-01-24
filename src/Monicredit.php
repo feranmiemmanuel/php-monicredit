@@ -16,8 +16,8 @@ use GuzzleHttp\Client;
 
     public function __construct()
     {
-        // $dotenv = Dotenv::createImmutable(__DIR__ . "/..");
-        // $dotenv->load();
+        $dotenv = Dotenv::createImmutable(__DIR__ . "/..");
+        $dotenv->load();
     }
     public function client()
     {
