@@ -2,31 +2,31 @@
 
 namespace Jesuferanmi\PhpMonicredit;
 
+use Dotenv\Dotenv;
 use GuzzleHttp\Client;
 
 /**
  * Monicredit API Library for PHP
  * @author Olasunkanmi Jesuferanmi
  */
-
  class Monicredit
  {
-    protected $publicKey;
-    protected $privateKey;
-    protected $revenueHeadId;
-    protected $customer;
-    protected $settlementBankId;
     protected $response;
-    protected $baseUrlType;
+    public $verifySSL = true;
 
-    public function client(string $baseUrlType)
+    public function __construct()
     {
-        return new Client(['base_uri' => $this->getBaseURI($baseUrlType)]);
+        // $dotenv = Dotenv::createImmutable(__DIR__ . "/..");
+        // $dotenv->load();
+    }
+    public function client()
+    {
+        return new Client(['base_uri' => $this->getBaseURI()]);
     }
 
-    public function getBaseURI(string $baseUrlType)
+    public function getBaseURI()
     {
-        switch ($baseUrlType){
+        switch ($_ENV['MONICREDIT_ENVIRONMENT']){
             case 'DEMO':
                 return 'https://demo.backend.monicredit.com/';
             case 'LIVE':
@@ -36,9 +36,9 @@ use GuzzleHttp\Client;
         }
     }
 
-    protected function post(string $path, array $payload, string $baseUrlType)
+    protected function post(string $path, array $payload)
     {
-        $response = $this->client($baseUrlType)->post(
+        $response = $this->client()->post(
             'api/v1/' . $path,
             [
                 'headers' => ['Content-Type' => 'application/json'],
@@ -50,9 +50,9 @@ use GuzzleHttp\Client;
         return json_decode($response->getBody(), true);
     }
 
-    protected function get(string $path, array $payload, string $baseUrlType)
+    protected function get(string $path, array $payload)
     {
-        $response = $this->client($baseUrlType)->get(
+        $response = $this->client()->get(
             'api/v1/' . $path,
             [
                 'headers' => ['Content-Type' => 'application/json'],
@@ -62,5 +62,23 @@ use GuzzleHttp\Client;
 
         $this->response = $response;
         return json_decode($response->getBody(), true);
+    }
+
+    public function intiateTransaction(array $payload)
+    {
+        $publicKey = '';
+        switch ($_ENV['MONICREDIT_ENVIRONMENT']){
+            case 'DEMO':
+                $publicKey = $_ENV['MONICREDIT_DEMO_PUBLIC_KEY'];
+            case 'LIVE':
+                $publicKey = $_ENV['MONICREDIT_LIVE_PUBLIC_KEY'];
+            default:
+                break;
+        }
+        $payload = array_merge($payload, [
+            'public_key' => $publicKey,
+            "paytype" => "standard"
+        ]);
+        return $this->post('payment/transactions/init-transaction', $payload);
     }
  }
