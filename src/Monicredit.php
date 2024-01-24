@@ -50,7 +50,7 @@ use GuzzleHttp\Client;
         return json_decode($response->getBody(), true);
     }
 
-    protected function get(string $path, array $payload)
+    protected function get(string $path, array $payload = [])
     {
         $response = $this->client()->get(
             'api/v1/' . $path,
@@ -89,5 +89,10 @@ use GuzzleHttp\Client;
             $payload['private_key'] = $privateKey;
         }
         return $this->post('payment/transactions/verify-transaction', $payload);
+    }
+
+    public function getInitiatedTransactionInfo($payload)
+    {
+        return $this->get('payment/transactions/init-transaction-info/' . $payload);
     }
  }

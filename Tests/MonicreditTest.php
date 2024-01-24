@@ -75,4 +75,18 @@ class MonicreditTest extends TestCase
         $this->assertIsArray($verify, "data");
         unset($verify);
     }
+
+    public function test_get_initiated_transaction_info()
+    {
+        $monicredit = new Monicredit();
+        $monicredit->verifySSL = $this->verifySSL;
+        $payload = "ACX65B195953530D";
+        $getInfo = $monicredit->getInitiatedTransactionInfo($payload);
+
+        $this->assertIsArray($getInfo);
+        $this->assertArrayHasKey("status", $getInfo);
+        $this->assertArrayHasKey("data", $getInfo);
+        $this->assertIsArray($getInfo, "data");
+        unset($getInfo);
+    }
 }
