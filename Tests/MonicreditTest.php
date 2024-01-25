@@ -47,7 +47,6 @@ class MonicreditTest extends TestCase
             'order_id' => rand(1000, 9000),
             'customer' => $customer,
             'items' => [$itemDetails],
-            'transaction_type' => 'POS',
             'feeBearer' => 'merchant'
         ];
 

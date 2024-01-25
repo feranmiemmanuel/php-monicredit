@@ -8,6 +8,11 @@
             "Jesuferanmi\\PhpMonicredit\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+          "Tests\\": "tests/"
+        }
+      },
     "authors": [
         {
             "name": "Olasunkanmi Jesuferanmi",
