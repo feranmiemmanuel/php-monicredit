@@ -38,6 +38,20 @@ Before starting :checkered_flag:, you need to have [Git](https://git-scm.com) an
 # Installation
 $ composer require jesuferanmi/php-monicredit
 ```
+
+## ENV Configuration
+
+Open your .env file and add your demo public key, live public key, demo private key, live private key and monicredit environment('DEMO' or 'LIVE') like this:
+
+```php
+MONICREDIT_DEMO_PUBLIC_KEY=""
+MONICREDIT_DEMO_PRIVATE_KEY=""
+MONICREDIT_LIVE_PUBLIC_KEY=""
+MONICREDIT_LIVE_PRIVATE_KEY=""
+MONICREDIT_ENVIRONMENT="DEMO"
+```
+*If you are using a hosting service like heroku, ensure to add the above details to your configuration variables.*
+
 #Usage
 
 - Initiate Transaction
