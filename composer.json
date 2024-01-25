@@ -2,6 +2,17 @@
     "name": "jesuferanmi/php-monicredit",
     "description": "Monicredit Rest API php library",
     "type": "library",
+    "keywords": [
+        "php",
+        "github",
+        "Open Source",
+        "payments",
+        "monicredit",
+        "monicredit.co",
+        "monicredit sdk",
+        "sdk",
+        "jesuferanmi"
+      ],
     "license": "MIT",
     "autoload": {
         "psr-4": {
