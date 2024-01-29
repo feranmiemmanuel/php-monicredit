@@ -24,47 +24,50 @@ use GuzzleHttp\Client;
         return new Client(['base_uri' => $this->getBaseURI()]);
     }
 
-    public function getBaseURI()
+    public function getBaseURI(): string
     {
         switch ($_ENV['MONICREDIT_ENVIRONMENT']){
             case 'DEMO':
-                return 'https://demo.backend.monicredit.com/';
+                return $_ENV['MONICREDIT_DEMO_BASEURL'];
             case 'LIVE':
-                return 'https://live.backend.monicredit.com/';
+                return $_ENV['MONICREDIT_LIVE_BASEURL'];
             default:
                 break;
         }
     }
 
-    protected function post(string $path, array $payload)
+    protected function parsePostRequest(string $path, array $payload)
     {
         $response = $this->client()->post(
-            'api/v1/' . $path,
+            'v1/' . $path,
             [
                 'headers' => ['Content-Type' => 'application/json'],
                 'json' => $payload,
             ]
         );
 
-        $this->response = $response;
-        return json_decode($response->getBody(), true);
+        return $this->responseFormater($response);
     }
 
-    protected function get(string $path, array $payload = [])
+    protected function parseGetRequest(string $path, array $payload = []): array
     {
         $response = $this->client()->get(
-            'api/v1/' . $path,
+            'v1/' . $path,
             [
                 'headers' => ['Content-Type' => 'application/json'],
                 'query' => $payload,
             ]
         );
 
-        $this->response = $response;
+        return $this->responseFormater($response);
+    }
+
+    protected function responseFormater($response): array
+    {
         return json_decode($response->getBody(), true);
     }
 
-    public function intiateTransaction(array $payload)
+    public function intiateTransaction(array $payload): array
     {
         $publicKey = '';
         if ($_ENV['MONICREDIT_ENVIRONMENT'] == 'DEMO') {
@@ -75,10 +78,10 @@ use GuzzleHttp\Client;
             $payload['public_key'] = $publicKey;
         }
         $payload["paytype"] = "standard";
-        return $this->post('payment/transactions/init-transaction', $payload);
+        return $this->parsePostRequest('payment/transactions/init-transaction', $payload);
     }
 
-    public function verifyTransaction(array $payload)
+    public function verifyTransaction(array $payload): array
     {
         $privateKey = '';
         if ($_ENV['MONICREDIT_ENVIRONMENT'] == 'DEMO') {
@@ -88,11 +91,11 @@ use GuzzleHttp\Client;
             $privateKey = $_ENV['MONICREDIT_LIVE_PRIVATE_KEY'];
             $payload['private_key'] = $privateKey;
         }
-        return $this->post('payment/transactions/verify-transaction', $payload);
+        return $this->parsePostRequest('payment/transactions/verify-transaction', $payload);
     }
 
-    public function getInitiatedTransactionInfo($payload)
+    public function getInitiatedTransactionInfo(string $payload): array
     {
-        return $this->get('payment/transactions/init-transaction-info/' . $payload);
+        return $this->parseGetRequest('payment/transactions/init-transaction-info/' . $payload);
     }
  }

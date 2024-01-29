@@ -41,7 +41,7 @@ $ composer require jesuferanmi/php-monicredit
 
 ## ENV Configuration
 
-Open your .env file and add your demo public key, live public key, demo private key, live private key and monicredit environment('DEMO' or 'LIVE') like this:
+Open your .env file and add your demo public key, live public key, demo private key, live private key, monicredit live and demo base url(You will find this in the api documentation. An example of the base url is: https://baseURL/api/) and monicredit environment('DEMO' or 'LIVE') like this:
 
 ```php
 MONICREDIT_DEMO_PUBLIC_KEY=""
@@ -49,6 +49,8 @@ MONICREDIT_DEMO_PRIVATE_KEY=""
 MONICREDIT_LIVE_PUBLIC_KEY=""
 MONICREDIT_LIVE_PRIVATE_KEY=""
 MONICREDIT_ENVIRONMENT="DEMO"
+MONICREDIT_DEMO_BASEURL=""
+MONICREDIT_LIVE_BASEURL=""
 ```
 *If you are using a hosting service like heroku, ensure to add the above details to your configuration variables.*
 
