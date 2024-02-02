@@ -4,10 +4,13 @@ namespace Tests;
 
 use Dotenv\Dotenv;
 use PHPUnit\Framework\TestCase;
+use Jesuferanmi\PhpMonicredit\traits\HttpRequestTrait;
 use Jesuferanmi\PhpMonicredit\Monicredit;
 
 class MonicreditTest extends TestCase
 {
+    use HttpRequestTrait;
+ 
     protected $verifySSL = false;
 
     public function __construct($name = null, array $data = [], $dataName = '')
